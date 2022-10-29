@@ -1,0 +1,21 @@
+<a href="/">Назад</a><hr>
+
+{% for cart in user_cart %}
+
+Товар: {{ cart.user_product.product_name }}<br>
+Количество: {{ cart.user_product_quantity }}<br>
+Цена за 1 товар: {{ cart.user_product.product_price }}<br>
+Итог: {% widthratio cart.user_product_quantity 1 cart.user_product.product_price %}
+
+<form action="/delete_product/{{ cart.user_product.id }}">
+    <button>Удалить продукт</button>
+</form>
+
+{% endfor %}
+
+<!--Оформление заказа-->
+
+<form action="accept_order/" method="POST">
+    {% csrf_token %}
+    <button>Оформить заказ</button>
+</form>
