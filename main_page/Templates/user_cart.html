@@ -61,7 +61,8 @@
 							<li>Shipping Cost <span>Free</span></li>
 							<li>Total <span>{{ user_total }} сум</span></li>
 						</ul>
-							<form method="POST">
+
+							<form action="/accept_order/" method="POST">
 								{% csrf_token %}
 								<button>Оформить заказ</button>
 							</form>

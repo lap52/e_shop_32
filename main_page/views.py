@@ -19,7 +19,7 @@ def home_page(request):
 def get_all_products(request):
     all_products = models.Products.objects.all() # Получить все
 
-    return render(request, 'products.html', {'all_products': all_products}) # !Передать на front
+    return render(request, 'about_product.html', {'all_products': all_products}) # !Передать на front
 
 
 # Получить конкретный товар
@@ -61,7 +61,7 @@ def add_product_to_user_cart(request, pk):
                                            user_product_quantity=int(request.POST.get('pr_count'))).save()
 
 
-            return redirect('/products')
+            return redirect(f'/product/{checker.product_name}')
 
         else:
             return redirect(f'/product/{checker.product_name}')
@@ -71,7 +71,9 @@ def add_product_to_user_cart(request, pk):
 def get_exact_user_cart(request):
     user_cart = models.UserCart.objects.filter(user_id=request.user.id)
 
-    return render(request, 'user_cart.html', {'user_cart': user_cart})
+    return render(request, 'user_cart.html',
+                  {'user_cart': user_cart})
+
 
 
 # Удаление из корзины продукта

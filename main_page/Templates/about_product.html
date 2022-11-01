@@ -11,7 +11,6 @@
                     <div class="view-product">
                         <img src="/{{ current_product.product_image }}" alt="" /> <!--product image-->
                     </div>
-
                 </div>
                 <div class="col-sm-7">
                     <div class="product-information"><!--/product-information-->
@@ -20,9 +19,9 @@
                         <span>
                             <span>{{ current_product.product_price }} сум</span><br>
                             <label>Quantity</label><br>
-                            <form method="POST">
+                            <form action="/add_to_cart/{{ current_product.id }}" method="POST">
                                 {% csrf_token %}
-                                <input type="number" name="product_count" />
+                                <input type="number" name="pr_count" />
                                 <button type="submit" class="btn btn-fefault cart">
                                     <i class="fa fa-shopping-cart"></i>
                                           Add to cart
