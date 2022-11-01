@@ -30,3 +30,5 @@ class UserCart(models.Model):
     user_product = models.ForeignKey(Products, on_delete=models.CASCADE)
     user_product_quantity = models.IntegerField()
     cart_date = models.DateTimeField(auto_now_add=True)
+
+

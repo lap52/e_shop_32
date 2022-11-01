@@ -4,11 +4,9 @@ from django.http import HttpResponse
 from . import models
 
 
-
 bot = telebot.TeleBot('5526116093:AAGwn4MOPRXsTixPyna1Gp1PTOI-UqQA8eY')
 
 
-# Create your views here.
 def home_page(request):
     all_categories = models.Category.objects.all() # Получить все
 
@@ -28,7 +26,7 @@ def get_all_products(request):
 def get_exact_product(request, pk):
     current_product = models.Products.objects.get(product_name=pk)
 
-    return render(request, 'exact_product.html', {'current_product': current_product}) # !Передать на front
+    return render(request, 'about_product.html', {'current_product': current_product}) # !Передать на front
 
 
 # Получить конкретную категорию
@@ -36,7 +34,7 @@ def get_exact_categories(request, pk):
     current_category = models.Category.objects.get(id=pk) # Получаем данную категорию
     category_products = models.Products.objects.filter(product_category=current_category) # Выводим продукты
 
-    return render(request, 'exact_categories.html', {'category_products': category_products}) # !Передать на front
+    return render(request, 'categrory_products.html', {'category_products': category_products}) # !Передать на front
 
 
 # Поиск конкретного товара
@@ -88,13 +86,17 @@ def delete_exact_user_cart(request, pk):
 
 # Оформление заказа
 def accept_order_from_user(request):
+    user_cart = models.UserCart.objects.filter(user_id=request.user.id)
     admin_id = 128401602
-    if request.method == "POST":
-        user_cart = models.UserCart.objects.filter(user_id=request.user.id)
-        for k in user_cart:
-            mssg = k,v
-            bot.send_message(admin_id, mssg.user_product)
 
-        return render(request, '/', {'user_cart': user_cart})
+    if request.method == "POST":
+        main_text = 'Новый заказ\n\n'
+
+        for i in user_cart:
+            main_text += f'Товар: {i.user_product} Количество: {i.user_product_quantity}\n'
+
+    bot.send_message(admin_id, main_text)
+    user_cart.delete()
+    return redirect('/')
 
 
